@@ -1,10 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const multer = require("multer");
+const multer = require('multer');
+const path = require('path');
 const Book = require('../models/book');
+const uploadPath = path.join('public', Book.coverImageBasePath);
+const imageMimeTypes = ['images/jpeg', 'images/png', 'images/gif'];
 const Author = require('../models/author');
 const upload = multer({
-  dest: 
+  dest: uploadPath,
+  fileFilter: (req, file, callback) => {
+    callback(null, imageMimeTypes.includes(file.mimetype))
+  }
 })
 
 // All Books Route
